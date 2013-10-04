@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -46,7 +47,7 @@ namespace AnalyticsService
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-    // [System.Web.Script.Services.ScriptService]
+   // [System.Web.Script.Services.ScriptService]
     public class LoggerService : System.Web.Services.WebService
     {
         #region Feilds
@@ -65,7 +66,8 @@ namespace AnalyticsService
         }
 
         #region Methods
-        public static bool LogEvent(LoggingEvent logObj)
+        [WebMethod]
+        public bool LogEvent(LoggingEvent logObj)
         {
             try
             {
