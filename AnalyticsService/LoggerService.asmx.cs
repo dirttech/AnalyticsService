@@ -17,13 +17,8 @@ namespace AnalyticsService
     {
         public LoggingEvent()
         {
-            id = new Guid();
-            dated = DateTime.Now;
-        }
-
-        public Guid id;
-        public DateTime dated;
-       
+            
+        }      
 
         private string eventID;
         public string EventID
@@ -60,9 +55,15 @@ namespace AnalyticsService
         #endregion
 
         [WebMethod]
-        public string HelloWorld()
+        public bool TestLogEvent()
         {
-            return "Hello World";
+            LoggingEvent logObj = new LoggingEvent();
+            logObj.UserID = "test";
+            logObj.EventID = "tetevent";
+
+            bool abc = LogEvent(logObj);
+            return abc;
+               
         }
 
         #region Methods
@@ -91,7 +92,7 @@ namespace AnalyticsService
 
                         DbParameter sNewId = provider.CreateParameter();
                         sNewId.ParameterName = parmPrefix + "ID";
-                        sNewId.Value = logObj.id;
+                        sNewId.Value = Guid.NewGuid();
                         cmd.Parameters.Add(sNewId);
 
                         DbParameter seventID = provider.CreateParameter();
@@ -106,7 +107,7 @@ namespace AnalyticsService
 
                         DbParameter sDated = provider.CreateParameter();
                         sDated.ParameterName = parmPrefix + "dated";
-                        sDated.Value = logObj.dated;
+                        sDated.Value = DateTime.Now;
                         cmd.Parameters.Add(sDated);
 
                         cmd.ExecuteNonQuery();
@@ -121,6 +122,8 @@ namespace AnalyticsService
                 return false;
             }
         }
+
+      
 
         #endregion
 

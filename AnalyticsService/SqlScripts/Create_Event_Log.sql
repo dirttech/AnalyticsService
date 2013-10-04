@@ -1,6 +1,6 @@
 CREATE TABLE `event_log` (
   `ID` char(38) NOT NULL,
-  `event_id` varchar(45) NOT NULL,
+  `event_id` varchar(100) NOT NULL,
   `dated` datetime NOT NULL,
   `user_id` varchar(45) NOT NULL,
   PRIMARY KEY (`event_id`,`dated`,`user_id`),
