@@ -123,6 +123,60 @@ namespace AnalyticsService
             }
         }
 
+        public bool LogEventHostel(LoggingEvent logObj)
+        {
+            try
+            {
+                using (DbConnection conn = provider.CreateConnection())
+                {
+                    conn.ConnectionString = connString;
+                    conn.Open();
+
+                    using (DbCommand cmd = conn.CreateCommand())
+                    {
+                        string sqlQuery;
+                        sqlQuery = "Insert into event_log_hostel (ID, event_id, user_id, dated) VALUES " +
+                               "(@ID, @eventID, @userID, @dated)";
+
+                        if (parmPrefix != "@")
+                        {
+                            sqlQuery = sqlQuery.Replace("@", parmPrefix);
+                        }
+                        cmd.CommandText = sqlQuery;
+                        cmd.CommandType = CommandType.Text;
+
+                        DbParameter sNewId = provider.CreateParameter();
+                        sNewId.ParameterName = parmPrefix + "ID";
+                        sNewId.Value = Guid.NewGuid();
+                        cmd.Parameters.Add(sNewId);
+
+                        DbParameter seventID = provider.CreateParameter();
+                        seventID.ParameterName = parmPrefix + "eventID";
+                        seventID.Value = logObj.EventID;
+                        cmd.Parameters.Add(seventID);
+
+                        DbParameter suserID = provider.CreateParameter();
+                        suserID.ParameterName = parmPrefix + "userID";
+                        suserID.Value = logObj.UserID;
+                        cmd.Parameters.Add(suserID);
+
+                        DbParameter sDated = provider.CreateParameter();
+                        sDated.ParameterName = parmPrefix + "dated";
+                        sDated.Value = DateTime.Now;
+                        cmd.Parameters.Add(sDated);
+
+                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+                    }
+                    conn.Close();
+                }
+                return true;
+            }
+            catch (Exception exp)
+            {
+                return false;
+            }
+        }
       
 
         #endregion
