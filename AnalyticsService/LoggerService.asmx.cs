@@ -123,6 +123,7 @@ namespace AnalyticsService
             }
         }
 
+        [WebMethod]
         public bool LogEventHostel(LoggingEvent logObj)
         {
             try
